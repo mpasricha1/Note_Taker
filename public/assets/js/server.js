@@ -8,18 +8,26 @@ app.get('/', (req, res) =>{
 	res.send("New Test")
 }); 
 
+// app.get('/*', (req, res) =>{
+// 	res.redirect('/');
+// });
+
+app.get('/notes', (req, res) =>{
+	res.send("Notes route"); 
+});
+
 app.get('/api/notes', (req, res) =>{
 	res.send("This is the api/notes route");
-})
+});
 
 app.post('/api/notes', (req, res) => {
 	res.send("POST Request")
-})
+});
 
 app.delete('/api/notes/:id'), (req, res) => {
 	res.send("Delete request")
-}
+};
 
 app.listen(PORT, () =>{
 	console.log(`Listening on Port: ${PORT}`); 
-})
+});
