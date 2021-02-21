@@ -1,19 +1,20 @@
 const http = require("http"); 
 const express = require("express"); 
-const app = express()
+const path = require("path");
+const app = express();
 
 const PORT = 8080; 
 
 app.get('/', (req, res) =>{
-	res.send("New Test")
+	res.sendFile(path.join(__dirname, "../../index.html")); 
 }); 
 
-// app.get('/*', (req, res) =>{
+// app.use('*', (req, res) =>{
 // 	res.redirect('/');
 // });
 
 app.get('/notes', (req, res) =>{
-	res.send("Notes route"); 
+	res.sendFile(path.join(__dirname, "../../notes.html"));
 });
 
 app.get('/api/notes', (req, res) =>{
