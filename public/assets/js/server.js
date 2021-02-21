@@ -1,9 +1,14 @@
 const http = require("http"); 
+const fs = require("fs"); 
 const express = require("express"); 
 const path = require("path");
-const app = express();
+const db = require('../../../db/db.json');
 
+const app = express();
 const PORT = 8080; 
+
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
 
 app.get('/', (req, res) =>{
 	res.sendFile(path.join(__dirname, "../../index.html")); 
@@ -18,7 +23,8 @@ app.get('/notes', (req, res) =>{
 });
 
 app.get('/api/notes', (req, res) =>{
-	res.send("This is the api/notes route");
+	res.header("Content-Type", 'application/json'); 
+	res.send(JSON.stringify(db));
 });
 
 app.post('/api/notes', (req, res) => {
