@@ -10,7 +10,6 @@ module.exports = app => {
 
 	app.get('/notes', (req, res) =>{
 		res.sendFile(path.join(__dirname, "../public/notes.html"));
-		console.log(req.body)
 	});
 
 	app.get('/api/notes', (req, res) =>{
@@ -18,18 +17,30 @@ module.exports = app => {
 	});
 
 	app.post('/api/notes', (req, res) => {
-		let noteToAdd = req.body; 
 		let savedNotesList = fileUtils.getNotes();
 
-		noteToAdd.id = savedNotesList.length;
-		savedNotesList.push(noteToAdd);
+		req.body.id = savedNotesList.length;
+		savedNotesList.push(req.body);
 
 		fileUtils.saveNotes(savedNotesList);
 	});
 
-	app.delete('/api/notes/:id'), (req, res) => {
-		res.send("Delete request")
-	};
+	app.delete('/api/notes/:id', (req, res) => {
+		let savedNotesList = fileUtils.getNotes(); 
+
+		savedNotesList = savedNotesList.filter(note => {
+			return note.id != req.params.id
+		}); 
+
+		savedNotesList.forEach(note => {
+			if(note.id > req.params.id){
+				note.id--; 
+			}
+
+		})
+
+		fileUtils.saveNotes(savedNotesList)
+	});
 
 }
 
