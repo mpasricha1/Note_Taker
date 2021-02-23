@@ -1,6 +1,7 @@
 const path = require("path");
-const fs = require("fs");
 const db = require('../db/db.json');
+const fileUtils = require("../utils/fileUtils");
+
 
 module.exports = app => {
 	app.get('/', (req, res) =>{
@@ -17,9 +18,13 @@ module.exports = app => {
 	});
 
 	app.post('/api/notes', (req, res) => {
-		let newNote = req.body; 
+		let noteToAdd = req.body; 
+		let savedNotesList = fileUtils.getNotes();
 
-		console.log(newNote); 
+		noteToAdd.id = savedNotesList.length;
+		savedNotesList.push(noteToAdd);
+
+		fileUtils.saveNotes(savedNotesList);
 	});
 
 	app.delete('/api/notes/:id'), (req, res) => {
