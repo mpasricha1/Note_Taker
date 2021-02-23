@@ -1,7 +1,6 @@
-const http = require("http"); 
-const fs = require("fs"); 
+const http = require("http");  
 const express = require("express"); 
-const path = require("path");
+
 const db = require('./db/db.json');
 
 const app = express();
@@ -13,31 +12,30 @@ app.use(express.static('./'));
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 
-app.get('/', (req, res) =>{
-	res.sendFile(path.join(__dirname, "public/index.html")); 
-}); 
+require("./routes/routes")(app);
 
-// app.use('*', (req, res) =>{
-// 	res.redirect('/');
+// app.get('/', (req, res) =>{
+// 	res.sendFile(path.join(__dirname, "public/index.html")); 
+// }); 
+
+// app.get('/notes', (req, res) =>{
+// 	res.sendFile(path.join(__dirname, "public/notes.html"));
+// 	console.log(req.body)
 // });
 
-app.get('/notes', (req, res) =>{
-	res.sendFile(path.join(__dirname, "public/notes.html"));
-});
+// app.get('/api/notes', (req, res) =>{
+// 	return res.json(db);
+// });
 
-app.get('/api/notes', (req, res) =>{
-	return res.json(db);
-});
+// app.post('/api/notes', (req, res) => {
+// 	let newNote = req.body; 
 
-app.post('/api/notes', (req, res) => {
-	let newNote = req.body; 
+// 	console.log(newNote); 
+// });
 
-	console.log(newNote); 
-});
-
-app.delete('/api/notes/:id'), (req, res) => {
-	res.send("Delete request")
-};
+// app.delete('/api/notes/:id'), (req, res) => {
+// 	res.send("Delete request")
+// };
 
 app.listen(PORT, () =>{
 	console.log(`Listening on Port: ${PORT}`); 
