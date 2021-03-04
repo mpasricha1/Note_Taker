@@ -1,5 +1,4 @@
 const path = require("path");
-const db = require('../db/db.json');
 const fileUtils = require("../utils/fileUtils");
 
 
@@ -12,19 +11,18 @@ module.exports = app => {
 	});
 
 	app.get('/api/notes', (req, res) =>{
-		return res.json(db);
+		res.json(fileUtils.getNotes());
 	});
 
 	app.post('/api/notes', (req, res) => {
-		console.log("In Post")
 		let savedNotesList = fileUtils.getNotes();
 
 		req.body.id = savedNotesList.length;
 		savedNotesList.push(req.body);
-
+		console.log(savedNotesList);
 		fileUtils.saveNotes(savedNotesList);
 
-		return res.json(true);
+		return res.json(req.body);
 	});
 
 	app.delete('/api/notes/:id', (req, res) => {
@@ -44,7 +42,7 @@ module.exports = app => {
 		fileUtils.saveNotes(savedNotesList);
 		console.log("Note Successfully Deleted");
 
-		return res.json(true);
+		return res.json(savedNotesList);
 	});
 
 }

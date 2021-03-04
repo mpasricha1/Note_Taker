@@ -6,9 +6,10 @@ const getNotes = () => {
 }
 
 const saveNotes = (savedNotesList) => {
-	fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(savedNotesList), "utf8", (err) =>{
+	fs.writeFileSync(path.join(__dirname, "../db/db.json"), JSON.stringify(savedNotesList), "utf8", (err) =>{
 			err ? console.log(err) : console.log("Notes Successfuly Updated"); 
 		});
+
 }; 
 
 module.exports = {saveNotes, getNotes}; 
